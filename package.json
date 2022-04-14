@@ -1,14 +1,14 @@
 {
-  "name": "vmanarchybot",
-  "version": "1.0.0",
-  "description": "",
+  "name": "vmadiscordbot",
+  "version": "0.1.0",
+  "description": "A Discord bot for the VMAnarchy server. (RUSSIAN)",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "author": "gohoski",
+  "license": "MIT",
   "dependencies": {
     "@discordjs/builders": "^0.12.0",
     "@discordjs/rest": "^0.3.0",
@@ -20,5 +20,14 @@
     "lowdb": "^3.0.0",
     "markov": "^0.0.7",
     "nanoid": "^3.3.2"
-  }
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/VMAnarchyRU/DiscordBot.git"
+  },
+  "bugs": {
+    "url": "https://github.com/VMAnarchyRU/DiscordBot/issues"
+  },
+  "homepage": "https://github.com/VMAnarchyRU/DiscordBot#readme"
 }
