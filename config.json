@@ -1,5 +1,6 @@
 {
 	"clientId": "enterIdHere",
 	"guildId": "enterIdHere",
-	"token": "yourEpicTokenHere"
+	"token": "yourEpicTokenHere",
+	"webhook": "yourEpicWebhookURL"
 }
