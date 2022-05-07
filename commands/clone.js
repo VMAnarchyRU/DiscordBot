@@ -46,6 +46,7 @@ module.exports = {
 		db.data ||= { clones: [] };
 		console.log(interaction.options.getSubcommand())
 	  let cloneFound = false;
+		try {
 		switch (interaction.options.getSubcommand()) {
 			case 'создать':
 
@@ -160,7 +161,7 @@ module.exports = {
 
 				for (let clone of db.data.clones) {
 					 if (clone.authorId == interaction.member.id) {
-						 clone.avatar = interaction.member.avatar;
+						 clone.avatar = interaction.member.user.avatar;
 						 await db.write();
 						 interaction.reply('Аватарка обновлена успешно у клона!');
 						 cloneFound = true
@@ -270,6 +271,9 @@ module.exports = {
 	 		 if (!cloneFound)
 	 		 	await interaction.reply('Вы не создали клона! Создайте его через `/клон создать`.');
 			break;
+		}
+		} catch(err) {
+			try { interaction.reply(`Какая-то неисправимая залупа произошла, вот ошибка: \`\`\`${err}\`\`\``) } catch {interaction.followUp(`Какая-то неисправимая залупа произошла, вот ошибка: \`\`\`${err}\`\`\``)}
 		}
 	},
 };

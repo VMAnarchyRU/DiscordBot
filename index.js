@@ -1,7 +1,7 @@
 // Тут есть говнокод, так что не берите пример с меня. <:D
 const fs = require('node:fs');
 const { Client, Collection, Intents, WebhookClient } = require('discord.js');
-const { token } = require('./config.json');
+const { token, webhook } = require('./config.json');
 const client = new Client({ partials: ['MESSAGE', 'CHANNEL'], intents: ['GUILD_MESSAGES', 'GUILDS'] });
 client.commands = new Collection();
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
@@ -13,7 +13,7 @@ for (const file of commandFiles) {
 }
 var markov = require('markov');
 var m = [];
-const webhookClient = new WebhookClient({ url: 'https://canary.discord.com/api/webhooks/919598793723379772/1uvPxOfg9hD92UxUS7pLD07FJ270917wcgTHAWuI5_5Ed5ayt9iJYFTG9nAlM4Sfx2un' }, { allowedMentions: { parse: [], users: [], roles: [] }});
+const webhookClient = new WebhookClient({ url: webhook }, { allowedMentions: { parse: [], users: [], roles: [] }});
 /*(async () => {
 	const { Low, JSONFile } = await import('lowdb');
 	const adapter = new JSONFile('db.json')
@@ -64,12 +64,14 @@ client.on('messageCreate', async message => {
 	db.data ||= { clones: [] };
 	let clonesMentioned = 0;
 	let a4 = true;
-  db.data.clones.forEach(async (clone, index) => {
+	let index = 0;
+  for (let clone of db.data.clones) {
     if (message.content.toLowerCase().includes(clone.name.toLowerCase())) {
 			if (!m[index]) {
 				m[index] = markov(Math.floor(Math.random() * 4));
 				m[index].seed(clone.messages.join('\n'));
 			}
+			console.log(a4);
 			if (!a4)
 				return;
 			if (clonesMentioned > 1) {
@@ -93,7 +95,7 @@ client.on('messageCreate', async message => {
 			let glent = fuse.search(message.content);
 			if (typeof glent !== 'undefined' && glent.length > 0) {
 				glent = glent[0];
-				if (glent.score < 0.3) {
+				if (glent.score < 0.1) {
 					webhookClient.send({
 		      	content: clone.scenarios[glent.refIndex].a,
 		      	username: clone.name,
@@ -102,7 +104,8 @@ client.on('messageCreate', async message => {
 				}
 			}
 		}
-  })
+		index += 1;
+  }
 });
 
 async function kobyakov() {
@@ -116,7 +119,8 @@ async function kobyakov() {
 		m[random] = markov(Math.floor(Math.random() * 4));
 		m[random].seed(db.data.clones[random].messages.join('\n'));
 	}
-	client.user.setActivity(`${db.data.clones[random].name}: ${m[random].respond(nanoid()).join(' ').slice(0, 50)}`);
+	const status = `${db.data.clones[random].name}: ${m[random].respond(nanoid()).join(' ')}`;
+	client.user.setActivity(status.slice(0, 75));
 	console.log('Обновили статус')
 }
 
